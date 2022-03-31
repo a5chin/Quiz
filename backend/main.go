@@ -6,8 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// TODO: fix type error
-
 func main() {
 	r := gin.Default()
 	r.GET("/questions", func(c *gin.Context) {

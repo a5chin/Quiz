@@ -5,6 +5,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// TODO: fix type error
 type Question struct {
 	gorm.Model
 	year       int    `gorm:"not null"`
