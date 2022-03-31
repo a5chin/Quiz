@@ -4,6 +4,7 @@ import pandas as pd
 from pathlib import Path
 
 
+# TODO: fix type error
 class DatabaseCommiter:
     def __init__(
         self,
@@ -24,13 +25,13 @@ class DatabaseCommiter:
     def insert_data(self, table: str, data) -> None:
         self._create_table(table)
         self.cursor.execute(
-            f"INSERT INTO {table} (id, year, genre, question, answer, commentary) VALUES (?,?,?,?,?,?)",
+            f"INSERT INTO {table} (id, created_at, updated_at, deleted_at, year, genre, question, answer, commentary) VALUES (?,?,?,?,?,?,?,?,?)",
             data
         )
 
     def _create_table(self, table: str) -> None:
         self.cursor.execute(
-            f"CREATE TABLE IF NOT EXISTS {table}(id INT PRIMARY KEY , year INT, genre INT, question TEXT, answer TEXT, commentary TEXT)",
+            f"CREATE TABLE IF NOT EXISTS {table}(id INT PRIMARY KEY, created_at TEXT, updated_at TEXT, deleted_at TEXT, year INT, genre TEXT, question TEXT, answer TEXT, commentary TEXT)",
         )
 
     def display_db(self, db_name, table) -> None:
