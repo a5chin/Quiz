@@ -4,7 +4,6 @@ import (
 	db_model "backend/model"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/mattn/go-sqlite3"
 )
 
 // TODO: fix type error

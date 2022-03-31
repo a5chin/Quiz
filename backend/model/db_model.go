@@ -2,6 +2,7 @@ package db_model
 
 import (
 	"github.com/jinzhu/gorm"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Question struct {
