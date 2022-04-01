@@ -6,11 +6,12 @@ import (
 )
 
 type Question struct {
-	year       int    `gorm:"not null"`
-	genre      string `gorm:"not null"`
-	question   string `gorm:"not null"`
-	answer     string `gorm:"not null"`
-	commentary string `gorm:"not null"`
+	ID         int    `gorm:"primary_key"`
+	Year       int    `gorm:"not null"`
+	Genre      string `gorm:"not null"`
+	Question   string `gorm:"not null"`
+	Answer     string `gorm:"not null"`
+	Commentary string `gorm:"not null"`
 }
 
 func DBGetAll() []Question {
@@ -18,11 +19,9 @@ func DBGetAll() []Question {
 	if err != nil {
 		panic("You can't open DB (dbGetAll())")
 	}
-	defer db.Close()
 
 	questions := []Question{}
 	db.Find(&questions)
 
-	// return None
 	return questions
 }
