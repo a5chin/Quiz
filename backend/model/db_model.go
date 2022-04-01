@@ -5,9 +5,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// TODO: fix type error
 type Question struct {
-	gorm.Model
 	year       int    `gorm:"not null"`
 	genre      string `gorm:"not null"`
 	question   string `gorm:"not null"`
@@ -21,7 +19,10 @@ func DBGetAll() []Question {
 		panic("You can't open DB (dbGetAll())")
 	}
 	defer db.Close()
-	var questions []Question
-	db.Order("created_at desc").Find(&questions)
+
+	questions := []Question{}
+	db.Find(&questions)
+
+	// return None
 	return questions
 }

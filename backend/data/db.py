@@ -2,9 +2,9 @@ import logging
 import sqlite3
 import pandas as pd
 from pathlib import Path
+from typing import List
 
 
-# TODO: fix type error
 class DatabaseCommiter:
     def __init__(
         self,
@@ -22,19 +22,19 @@ class DatabaseCommiter:
         self.conn = sqlite3.connect(self.root / self.db_name, isolation_level=None)
         self.cursor = self.conn.cursor()
 
-    def insert_data(self, table: str, data) -> None:
+    def insert_data(self, table: str, data: List) -> None:
         self._create_table(table)
         self.cursor.execute(
-            f"INSERT INTO {table} (id, created_at, updated_at, deleted_at, year, genre, question, answer, commentary) VALUES (?,?,?,?,?,?,?,?,?)",
+            f"INSERT INTO {table} (id, year, genre, question, answer, commentary) VALUES (?,?,?,?,?,?)",
             data
         )
 
     def _create_table(self, table: str) -> None:
         self.cursor.execute(
-            f"CREATE TABLE IF NOT EXISTS {table}(id INT PRIMARY KEY, created_at TEXT, updated_at TEXT, deleted_at TEXT, year INT, genre TEXT, question TEXT, answer TEXT, commentary TEXT)",
+            f"CREATE TABLE IF NOT EXISTS {table}(id INT PRIMARY KEY, year INT, genre TEXT, question TEXT, answer TEXT, commentary TEXT)",
         )
 
-    def display_db(self, db_name, table) -> None:
+    def display_db(self, db_name: str, table: str) -> None:
         conn = sqlite3.connect(self.root / db_name)
         df = pd.read_sql(f"SELECT * FROM {table}", conn)
         self.logger.info(df.to_string(index=False))
