@@ -7,6 +7,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+const db_file string = "data/questions.db"
+
 type Question struct {
 	ID         int    `gorm:"primary_key"`
 	Year       int    `gorm:"not null"`
@@ -16,11 +18,18 @@ type Question struct {
 	Commentary string `gorm:"not null"`
 }
 
-func GetAll() []Question {
-	db, err := gorm.Open("sqlite3", "data/questions.db")
+func ReadDB() *gorm.DB {
+	db, err := gorm.Open("sqlite3", db_file)
 	if err != nil {
 		panic("failed to connect database")
 	}
+	defer db.Close()
+
+	return db
+}
+
+func GetAll() []Question {
+	db := ReadDB()
 	defer db.Close()
 
 	questions := []Question{}
@@ -30,10 +39,7 @@ func GetAll() []Question {
 }
 
 func GetBy(tag string, num string) []Question {
-	db, err := gorm.Open("sqlite3", "data/questions.db")
-	if err != nil {
-		panic("failed to connect database")
-	}
+	db := ReadDB()
 	defer db.Close()
 
 	questions := []Question{}
